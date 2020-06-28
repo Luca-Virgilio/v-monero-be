@@ -45,7 +45,7 @@ process.on('SIGTERM', () => {
 
 // BRING IN YOUR SCHEMAS & MODELS
 // require('./users');
-// require('./salt');
+require('./salt');
 require('./wallets');
 
 

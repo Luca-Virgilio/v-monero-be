@@ -7,7 +7,7 @@ const ctrlBlockchain = require('../lib/blockchain');
 
 /* GET users listing. */
 router
-.route('/')
+.route('/wallets')
 .post(walletController.createWallet)
 .get(walletController.getWallets);
 

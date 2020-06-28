@@ -14,7 +14,7 @@ const verifyWallet = async (wallet1, wallet2) => {
         const res2 = await postRequest("open_wallet", { filename: wallet2, "password": "" });
         console.log(res2);
         (res2.error) ? await createWallet(wallet2) : await postRequest("close_wallet"); console.log(`${wallet2}'s wallet alredy exist`);
-        await getAddress(wallet1, wallet2);
+        await printAddress(wallet1, wallet2);
     } catch (error) {
         console.log(error);
     }
@@ -26,7 +26,9 @@ const createWallet = async (name) => {
         await postRequest("close_wallet");
         const res = await postRequest("create_wallet", { "filename": name, "password": "", "language": "English" });
         console.log(`${name}'s wallet created`);
+        const result = await postRequest("get_address", { "account_index": 0 });
         await postRequest("close_wallet");
+        return result.result.address;
     } catch (error) {
         console.log(error);
         throw error;
@@ -34,7 +36,7 @@ const createWallet = async (name) => {
 }
 
 // GET destination's wallets address
-const getAddress = async (name1, name2) => {
+const printAddress = async (name1, name2) => {
     try {
         await postRequest("close_wallet");
         await postRequest("open_wallet", { "filename": name1, "password": "" });
@@ -144,6 +146,7 @@ const postRequest = async (method, params) => {
     }
 }
 module.exports = {
+    createWallet,
     verifyWallet,
     transfer,
     getBalance,
