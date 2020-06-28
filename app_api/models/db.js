@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbURI = 'mongodb://localhost/test';
+const dbURI = 'mongodb://localhost/voting';
 mongoose.connect(dbURI, { useNewUrlParser: true });
 
 // // create a connection for a second database
@@ -44,5 +44,9 @@ process.on('SIGTERM', () => {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
-require('./users');
+// require('./users');
+// require('./salt');
+require('./wallets');
+
+
 

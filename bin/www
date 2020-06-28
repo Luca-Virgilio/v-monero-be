@@ -21,6 +21,14 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+// blockchain controller
+const ctrlBlockchain = require('../app_api/lib/blockchain');
+const setupPromises = [pdkdf2.createSalt(), ctrlBlockchain.verifyWallet("mare", "montagna")];
+await Promise.all(setupPromises);
+const timerMining = require('../app_server/lib/mining');
+await timerMining.setupMining();
+timerMining.manageMining();
+
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -7,6 +7,7 @@ require('./app_api/models/db');
 
 var indexRouter = require('./app_api/routes/index');
 var usersRouter = require('./app_api/routes/users');
+const walletsRouter = require('./app_api/routes/wallets');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   });
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', walletsRouter);
+// app.use('/users', usersRouter);
 
 module.exports = app;
