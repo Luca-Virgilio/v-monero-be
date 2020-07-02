@@ -29,4 +29,20 @@ router.post('/mining', async (req, res) => {
     }
 });
 
+router
+.route('/wallets/:id')
+.get(walletController.getWalletInfo);
+
+router
+.route('/wallets/:id/vote')
+.post(walletController.vote);
+
+router
+.route('/wallets/multiple_creation')
+.post(walletController.multipleCreation);
+
+router
+.route('/send_tokens')
+.post(walletController.sendTokens);
+
 module.exports = router;

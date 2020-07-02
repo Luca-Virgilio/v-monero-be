@@ -55,18 +55,48 @@ const printAddress = async (name1, name2) => {
         throw error;
     }
 };
-const transfer = async candidate => {
+const transferVoting = async (elector,candidates) => {
     try {
+        let num = 0;
+        console.log("num",num);
+        const payload = candidates.map(addr =>{
+            const amount = num==0 ? 1000000000000 : 10000000;
+            const vote = { "amount": amount, "address": addr };
+            num++;
+            return vote;
+        });
         await postRequest("close_wallet");
-        await postRequest("open_wallet", { "filename": "admin", "password": "" });
-        const res = await postRequest("transfer", { "destinations": [{ "amount": 1000000000000, "address": voteAddress.get(candidate) }], "account_index": 0 });
+        await postRequest("open_wallet", { "filename": elector, "password": "" });
+        await postRequest("refresh", { "start_height": 0 });
+        const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
+        await postRequest("close_wallet");
+        if(res.error) throw res.error;
         console.log("transfer:", res);
-        await postRequest("close_wallet");
 
     } catch (error) {
         console.log(error);
+        throw error;
     }
 
+}
+
+const transferMultiple = async candidates =>{
+    try {
+        const payload = candidates.map(addr =>{
+            return { "amount": 2000000000000, "address": addr }
+        });
+        await postRequest("close_wallet");
+        await postRequest("open_wallet", { "filename": "admin", "password": "" });
+        await postRequest("refresh", { "start_height": 0 });
+        const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
+        await postRequest("close_wallet");
+        if(res.error) throw res.error;
+        console.log("transfer:", res);
+
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
 }
 
 const getBalance = async wallet => {
@@ -77,11 +107,12 @@ const getBalance = async wallet => {
         const res = await postRequest("get_balance", { "account_index": 0 });
         console.log("getBalance:", res);
         await postRequest("close_wallet");
-        const num = res.result.balance / 1000000000000;
-        return { balance: num };
+        const balance = res.result.balance / 1000000000000;
+        return balance;
 
     } catch (error) {
         console.log(error);
+        throw error;
     }
 }
 const startMining = async _ => {
@@ -116,7 +147,6 @@ const getHeight = async _ => {
         await postRequest("refresh", { "start_height": 0 });
         const res = await postRequest("get_height");
         await postRequest("close_wallet");
-        console.log(res.result);
         return res.result;
     } catch (error) {
         console.log(error);
@@ -134,12 +164,14 @@ const postRequest = async (method, params) => {
         } else {
             body.method = method;
         }
+        console.log("body",JSON.stringify(body));
         const response = await fetch(url, {
             method: 'post',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
         });
-        return await response.json();
+        const res =  await response.json();
+        return res;
     } catch (error) {
         console.log(error);
         throw error;
@@ -148,9 +180,10 @@ const postRequest = async (method, params) => {
 module.exports = {
     createWallet,
     verifyWallet,
-    transfer,
+    transferVoting,
     getBalance,
     startMining,
     stopMining,
-    getHeight
+    getHeight,
+    transferMultiple
 }
