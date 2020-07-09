@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     type: {
         type:String,
-        enum:['admin', 'elector', 'candidate'],
+        enum:['admin', 'elector', 'candidate','fake'],
         default: 'elector'
     }
 });

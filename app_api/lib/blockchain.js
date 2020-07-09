@@ -80,10 +80,11 @@ const transferVoting = async (elector,candidates) => {
 
 }
 
-const transferMultiple = async candidates =>{
+const transferMultiple = async (candidates,fake=false) =>{
     try {
+        const amount = fake? 1 :  2000000000000;
         const payload = candidates.map(addr =>{
-            return { "amount": 2000000000000, "address": addr }
+            return { "amount": amount, "address": addr }
         });
         await postRequest("close_wallet");
         await postRequest("open_wallet", { "filename": "admin", "password": "" });
@@ -171,6 +172,7 @@ const postRequest = async (method, params) => {
             headers: { 'Content-Type': 'application/json' },
         });
         const res =  await response.json();
+        if(res.error && res.error.code !=-13 ) throw res.error;
         return res;
     } catch (error) {
         console.log(error);

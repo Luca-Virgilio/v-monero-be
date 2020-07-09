@@ -29,6 +29,8 @@ const main = async _ => {
   const setupPromises = [pdkdf2.createSalt(), ctrlBlockchain.verifyWallet("cand1", "cand2")];
   await Promise.all(setupPromises);
   const timerMining = require('../app_server/lib/mining');
+  await timerMining.createFakeElector(35);
+  await timerMining.setUpFakeElector();
   await timerMining.setupMining();
   timerMining.manageMining();
 
