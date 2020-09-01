@@ -71,30 +71,30 @@ const printAddress = async (name1, name2) => {
         throw error;
     }
 };
-const transferVoting = async (elector, candidates) => {
-    try {
-        let num = 0;
-        console.log("num", num);
-        const payload = candidates.map(addr => {
-            const amount = num == 0 ? 1000000000000 : 10000000;
-            const vote = { "amount": amount, "address": addr };
-            num++;
-            return vote;
-        });
-        await postRequest("close_wallet");
-        await postRequest("open_wallet", { "filename": elector, "password": "" });
-        await postRequest("refresh", { "start_height": 0 });
-        const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
-        await postRequest("close_wallet");
-        if (res.error) throw res.error;
-        console.log("transfer:", res);
+// const transferVoting = async (elector, candidates) => {
+//     try {
+//         let num = 0;
+//         console.log("num", num);
+//         const payload = candidates.map(addr => {
+//             const amount = num == 0 ? 1000000000000 : 10000000;
+//             const vote = { "amount": amount, "address": addr };
+//             num++;
+//             return vote;
+//         });
+//         await postRequest("close_wallet");
+//         await postRequest("open_wallet", { "filename": elector, "password": "" });
+//         await postRequest("refresh", { "start_height": 0 });
+//         const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
+//         await postRequest("close_wallet");
+//         if (res.error) throw res.error;
+//         console.log("transfer:", res);
 
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+//     } catch (error) {
+//         console.log(error);
+//         throw error;
+//     }
 
-}
+// }
 
 const transferMultiple = async (sender, destionations) => {
     try {
@@ -106,7 +106,8 @@ const transferMultiple = async (sender, destionations) => {
             })
             // during the vote, only the first address is the correct one. The others are fake
             : destionations.map(addr => {
-                if (index = 0) {
+                if (index == 0) {
+                    index++;
                     return {"amount": 1000000000000, "address": addr}
                 } else {
                     return { "amount": 100, "address": addr }
@@ -119,7 +120,7 @@ const transferMultiple = async (sender, destionations) => {
         await postRequest("close_wallet");
         if (res.error) throw res.error;
         console.log("transfer:", res);
-
+        return res;
     } catch (error) {
         console.log(error);
         throw error;
@@ -208,7 +209,7 @@ const postRequest = async (method, params) => {
 module.exports = {
     createWallet,
     verifyWallet,
-    transferVoting,
+    // transferVoting,
     getBalance,
     startMining,
     stopMining,

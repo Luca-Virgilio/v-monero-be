@@ -75,17 +75,19 @@ const createWalletElector = async to => {
 
 const setUpElector = async _ => {
     try {
-        do {
+        // do {
             console.log("********* setUpElector");
-            const wallets = await Wallet.find({ type: "elector", isUsed: false }).limit(11);
+            const wallets = await Wallet.find({ type: "elector", loaded: false }).limit(11);
+            console.log('num', wallets.length );
             if (wallets.length > 0) {
                 const electorsAddress = wallets.map(wallet => wallet.address);
                 await ctrlBlockchain.transferMultiple('admin', electorsAddress);
-                const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { isUsed: true }), mining(10000)];
+                const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(10000)];
                 await Promise.all(promises);
                 console.log("recall");
-            } 
-        } while (wallets.length != 0);
+                setUpElector();
+            } else return;
+        // } while (wallets.length != 0);
         return;
     } catch (error) {
         console.log(error);

@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    loaded: {
+        type: Boolean,
+        default:false
+    },
     isUsed: {
         type: Boolean,
         default:false
