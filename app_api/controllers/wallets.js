@@ -131,6 +131,29 @@ const vote = async (req, res) => {
     }
 }
 
+const voteFromApp = async (req, res) => {
+    try {
+        const { address } = req.body;
+        const { _id, name } = await Wallet.find({ type: "elector", loaded: true, isUsed: false }).limit(1);
+        candidates = [];
+        candidates.push(address);
+        const otherCandidates = await Wallet.find({ type: "candidate", address: { $nin: candidates } });
+        otherCandidates.forEach(cand => {
+            candidates.push(cand.address);
+        });
+        const result = await blockchain.transferMultiple(name, candidates);
+        console.log("result", result);
+        const newRow = await Wallet.findByIdAndUpdate(_id, { isUsed: true }, { new: true });
+        console.log("updateDocument", newRow);
+        return res.status(200).json(result);
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json(error.message);
+    }
+}
+
 
 module.exports = {
     createCandidates,
