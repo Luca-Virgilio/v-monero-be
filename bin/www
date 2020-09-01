@@ -25,14 +25,14 @@ const main = async _ => {
 
   const pdkdf2 = require('../app_server/lib/pdkdf2');
   // blockchain controller
-  const ctrlBlockchain = require('../app_api/lib/blockchain');
-  const setupPromises = [pdkdf2.createSalt(), ctrlBlockchain.verifyWallet("cand1", "cand2")];
+  const ctrlBlockchain = require('../app_api/controllers/wallets');
+  const setupPromises = [pdkdf2.createSalt(), ctrlBlockchain.createCandidates(["cand1", "cand2"])];
   await Promise.all(setupPromises);
   const timerMining = require('../app_server/lib/mining');
-  await timerMining.createFakeElector(35);
-  await timerMining.setUpFakeElector();
+  await timerMining.createWalletElector(40);
   await timerMining.setupMining();
   timerMining.manageMining();
+  await timerMining.setUpElector();
 
   /**
    * Listen on provided port, on all network interfaces.

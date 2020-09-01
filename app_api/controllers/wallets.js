@@ -2,6 +2,18 @@ const mongoose = require('mongoose');
 const Wallet = mongoose.model('Wallet');
 const blockchain = require('../lib/blockchain');
 
+const createCandidates = async (candidates) =>{
+    try {
+        const rowDb = await blockchain.verifyWallet(candidates);
+        if(rowDb && rowDb.length != 0){
+            const result = await Wallet.insertMany(rowDb);
+            console.log("res createCandidates", result);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const getWallets = async (req, res) => {
     try {
         wallets = await Wallet.find();
@@ -117,6 +129,7 @@ const vote = async (req,res) =>{
 }
 
 module.exports = {
+    createCandidates,
     getWallets,
     createWallet,
     getWalletInfo,

@@ -2,21 +2,37 @@ const fetch = require("node-fetch");
 
 const voteAddress = new Map();
 // GET
-const verifyWallet = async (wallet1, wallet2) => {
+const verifyWallet = async (candidates) => {
     try {
         await postRequest("close_wallet");
         const res_admin = await postRequest("open_wallet", { filename: "admin", "password": "" });
-        console.log(res_admin);
-        (res_admin.error) ? await createWallet("admin") : await postRequest("close_wallet"); console.log(`admin's wallet alredy exist`);
-        const res1 = await postRequest("open_wallet", { filename: wallet1, "password": "" });
-        console.log(res1);
-        (res1.error) ? await createWallet(wallet1) : await postRequest("close_wallet"); console.log(`${wallet1}'s wallet alredy exist`);
-        const res2 = await postRequest("open_wallet", { filename: wallet2, "password": "" });
-        console.log(res2);
-        (res2.error) ? await createWallet(wallet2) : await postRequest("close_wallet"); console.log(`${wallet2}'s wallet alredy exist`);
-        await printAddress(wallet1, wallet2);
+        await postRequest("close_wallet");
+        console.log(`admin's wallet alredy exist`);
+        // console.log(res_admin);
+        // (res_admin.error) ? await createWallet("admin") : await postRequest("close_wallet"); console.log(`admin's wallet alredy exist`);
+        // const res1 = await postRequest("open_wallet", { filename: wallet1, "password": "" });
+        // console.log('cand1', res1);
+        // (res1.error) ? await createWallet(wallet1) : await postRequest("close_wallet"); console.log(`${wallet1}'s wallet alredy exist`);
+        // const res2 = await postRequest("open_wallet", { filename: wallet2, "password": "" });
+        // console.log('cand2', res2);
+        // (res2.error) ? await createWallet(wallet2) : await postRequest("close_wallet"); console.log(`${wallet2}'s wallet alredy exist`);
+        const rowDb = [];
+        for (let i = 0; i < candidates.length; i++) {
+            const name = candidates[i];
+            try {
+                const res = await postRequest("open_wallet", { filename: name, "password": "" });
+            } catch (error) {
+                const address = await createWallet(name);
+                await postRequest("close_wallet");
+                rowDb.push({ name, address, type: 'candidate' });
+            }
+            console.log(`${name}'s wallet alredy exist`)
+        }
+        return rowDb;
+        // await printAddress(wallet1, wallet2);
     } catch (error) {
         console.log(error);
+        throw new FatalError("admin address doesn't exist!");
     }
 };
 
@@ -55,12 +71,12 @@ const printAddress = async (name1, name2) => {
         throw error;
     }
 };
-const transferVoting = async (elector,candidates) => {
+const transferVoting = async (elector, candidates) => {
     try {
         let num = 0;
-        console.log("num",num);
-        const payload = candidates.map(addr =>{
-            const amount = num==0 ? 1000000000000 : 10000000;
+        console.log("num", num);
+        const payload = candidates.map(addr => {
+            const amount = num == 0 ? 1000000000000 : 10000000;
             const vote = { "amount": amount, "address": addr };
             num++;
             return vote;
@@ -70,7 +86,7 @@ const transferVoting = async (elector,candidates) => {
         await postRequest("refresh", { "start_height": 0 });
         const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
         await postRequest("close_wallet");
-        if(res.error) throw res.error;
+        if (res.error) throw res.error;
         console.log("transfer:", res);
 
     } catch (error) {
@@ -80,18 +96,28 @@ const transferVoting = async (elector,candidates) => {
 
 }
 
-const transferMultiple = async (candidates,fake=false) =>{
+const transferMultiple = async (sender, destionations) => {
     try {
-        const amount = fake? 1 :  2000000000000;
-        const payload = candidates.map(addr =>{
-            return { "amount": amount, "address": addr }
-        });
+        const amount = 2000000000000;
+        let index = 0;
+        const payload = sender=='admin' ?
+        destionations.map(addr => {
+                return { "amount": amount, "address": addr }
+            })
+            // during the vote, only the first address is the correct one. The others are fake
+            : destionations.map(addr => {
+                if (index = 0) {
+                    return {"amount": 1000000000000, "address": addr}
+                } else {
+                    return { "amount": 100, "address": addr }
+                }
+            })
         await postRequest("close_wallet");
-        await postRequest("open_wallet", { "filename": "admin", "password": "" });
+        await postRequest("open_wallet", { "filename": `${sender}`, "password": "" });
         await postRequest("refresh", { "start_height": 0 });
         const res = await postRequest("transfer", { "destinations": payload, "account_index": 0 });
         await postRequest("close_wallet");
-        if(res.error) throw res.error;
+        if (res.error) throw res.error;
         console.log("transfer:", res);
 
     } catch (error) {
@@ -165,17 +191,17 @@ const postRequest = async (method, params) => {
         } else {
             body.method = method;
         }
-        console.log("body",JSON.stringify(body));
+        console.log("body", JSON.stringify(body));
         const response = await fetch(url, {
             method: 'post',
             body: JSON.stringify(body),
             headers: { 'Content-Type': 'application/json' },
         });
-        const res =  await response.json();
-        if(res.error && res.error.code !=-13 ) throw res.error;
+        const res = await response.json();
+        if (res.error && res.error.code != -13) throw res.error;
         return res;
     } catch (error) {
-        console.log(error);
+        console.log('postRequest', error);
         throw error;
     }
 }

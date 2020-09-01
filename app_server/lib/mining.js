@@ -1,6 +1,8 @@
 
 const ctrlBlockchain = require('../../app_api/lib/blockchain');
+const { randomBytesFy } = require('./pdkdf2');
 const mongoose = require('mongoose');
+const wallets = require('../../app_api/controllers/wallets');
 const Wallet = mongoose.model('Wallet');
 
 const mining = async (time) => {
@@ -49,17 +51,19 @@ const setupMining = async _ => {
     }
 }
 
-const createFakeElector = async to => {
+const createWalletElector = async to => {
     try {
-        console.log("!!!!!!!!!!!!!!!!!!! createFakeElector");
-        existFake = await Wallet.find({ type: "fake" });
-        console.log("existFake", existFake.length, to);
-        if (existFake.length <= to) {
+        console.log("!!!!!!!!!!!!!!!!!!! createElector");
+        const existElector = await Wallet.find({ type: "elector" });
+        console.log("existwalletElector", existElector.length, to);
+        if (existElector.length <= to) {
             const rows = [];
-            for (let i = existFake.length; i <= to; i++) {
-                const name = `ffff${i}`;
+            for (let i = existElector.length; i <= to; i++) {
+                // const rand = await randomBytesFy(10);
+                const name = `testEle${i}`;
                 const address = await ctrlBlockchain.createWallet(name);
-                const type = "fake"
+                const type = "elector"
+                console.log("insert ", { name, address, type })
                 rows.push({ name, address, type });
             }
             const result = await Wallet.insertMany(rows);
@@ -69,17 +73,20 @@ const createFakeElector = async to => {
     }
 }
 
-const setUpFakeElector = async _ => {
+const setUpElector = async _ => {
     try {
-        console.log("********* setUpFakeElector");
-        wallets = await Wallet.find({ type: "fake", isUsed: false }).limit(5);
-        if (wallets.length > 0) {
-            const electorsAddress = wallets.map(wallet => wallet.address);
-            await ctrlBlockchain.transferMultiple(electorsAddress,true);
-            const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { isUsed: true }), mining(10000)];
-            await Promise.all(promises);
-            console.log("recall");
-        } else return;
+        do {
+            console.log("********* setUpElector");
+            const wallets = await Wallet.find({ type: "elector", isUsed: false }).limit(11);
+            if (wallets.length > 0) {
+                const electorsAddress = wallets.map(wallet => wallet.address);
+                await ctrlBlockchain.transferMultiple('admin', electorsAddress);
+                const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { isUsed: true }), mining(10000)];
+                await Promise.all(promises);
+                console.log("recall");
+            } 
+        } while (wallets.length != 0);
+        return;
     } catch (error) {
         console.log(error);
         await ctrlBlockchain.stopMining();
@@ -90,6 +97,6 @@ const setUpFakeElector = async _ => {
 module.exports = {
     manageMining,
     setupMining,
-    setUpFakeElector,
-    createFakeElector
+    setUpElector,
+    createWalletElector
 }
