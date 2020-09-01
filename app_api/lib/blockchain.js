@@ -32,7 +32,8 @@ const verifyWallet = async (candidates) => {
         // await printAddress(wallet1, wallet2);
     } catch (error) {
         console.log(error);
-        throw new FatalError("admin address doesn't exist!");
+        console.log("admin address doesn't exist!");
+        process.exit();
     }
 };
 
