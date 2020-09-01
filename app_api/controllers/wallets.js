@@ -108,8 +108,8 @@ const vote = async (req, res) => {
     try {
         const { id } = req.params;
         const { address } = req.body;
-        const { name, type, loaded } = await Wallet.findById(id);
-        if (!loaded || type != "elector") {
+        const { name, type, loaded, isUsed } = await Wallet.findById(id);
+        if (!loaded || isUsed || type != "elector") {
             throw new Error('this wallet can not vote')
         } else {
             candidates = [];
