@@ -1,8 +1,97 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family     : "Cabin", Arial, sans-serif;
+  color           : black;
+  background-color: #8df5e169;
 }
 
-a {
-  color: #00B7FF;
+.container-header {
+  background-color: blue;
+  padding         : 1rem 3rem;
+  display         : flex;
+  justify-content : flex-start;
+  align-items     : center;
+  color           : white;
+}
+
+@media (max-width: 576px) {
+  .container-header {
+    padding: 1rem 0rem;
+  }
+}
+
+.img-fluid {
+  max-width: 100%;
+  height   : auto
+}
+
+.logo {
+  max-width: 100px;
+  height   : auto;
+  padding  : 1rem;
+}
+
+.card {
+  background-color: inherit;
+  padding         : 1rem;
+}
+
+.title-container {
+  margin        : 4rem 0rem;
+  text-align    : center;
+  padding-bottom: 0.5rem;
+}
+
+.flex {
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+
+}
+
+.container-title-description {
+  text-align: center;
+  border    : none;
+}
+
+.review {
+  margin-right : -16px;
+  margin-left  : -16px;
+  margin-bottom: 0.5em;
+}
+
+.container-verify {
+  margin-top: 3rem;
+  padding   : 2rem;
+}
+
+.container-cf {
+  flex-grow : 2;
+  /* padding: 2rem 3rem 0rem 1rem; */
+  max-width : 500px;
+  border    : none;
+}
+
+input {
+  height: 48px !important;
+}
+
+.go-btn {
+  flex-grow: 1;
+  margin   : 2rem;
+  max-width: 200px;
+}
+
+.container-question{
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+footer {
+  position: absolute;
+  bottom  : 0;
+  height  : 50px;
+  padding : 0rem 1rem;
 }

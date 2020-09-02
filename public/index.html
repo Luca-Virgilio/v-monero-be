@@ -1,13 +1,97 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-  <title>Express</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-voting System</title>
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="./javascripts/index.js"></script>
 </head>
 
 <body>
-  <h1>EXPRESS</h1>
-  <p>Welcome to Express</p>
+  <div class="container-fluid container-header">
+    <div>
+      <img src="./images/Logo_Università_Milano-Bicocca.svg.png" class="mlr-3 logo" alt="università_Bicocca">
+    </div>
+    <div>
+      <h3>Università degli studi di Milano-Bicocca</h3>
+    </div>
+  </div>
+  <div class="container content">
+    <div class="title-container flex">
+      <h1>Sistema di voto elettronico basato su blockchain</h1>
+    </div>
+    <div class="card flex container-title-description">
+      <div class="card-block">
+        <h2>Descrizione</h2>
+      </div>
+      <div>
+        <p>Inserire il proprio codice fiscale per esprimere il proprio voto. Sarà possibile partecipare una sola volta
+          alla votazione</p>
+      </div>
+    </div>
+    <div>
+      <div class="flex">
+        <div class="container-cf">
+          <input type="text" id="cf" class="form-control" placeholder="Codice fiscale" aria-describedby="basic-addon1">
+        </div>
+        <div class="go-btn">
+          <button id="go_btn" class="btn btn-primary btn-lg btn-block" onclick="checkCf()">Avanti</button>
+        </div>
+      </div>
+      <div class="flex container-verify">
+        <div>
+          <button id="verfy_btn" class="btn btn-secondary btn-lg btn-block">Verifica transactionId</button>
+        </div>
+       
+      </div>
+    </div>
+    <!-- </div>
+    </div> -->
+    <!-- 
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status" id="spin" style="display: none">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <br>
+    <div class="alert alert-danger" id="alertmsg" role="alert" style="display: none; text-align:center">
+    </div>
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3">
+        <div class="card card-primary review-card">
+          <div> <a id="result_btn" class="btn btn-primary btn-lg btn-block" style="display: none"
+              href="result.html">risultati</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-10 col-md-2 offset-md-10">
+        <div class="card card-primary review-card">
+          <div> <button id="finish_btn" class="btn btn-primary btn-lg btn-block" onclick="finish()">termina
+              votazione</button></div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <!-- <script src="/javascripts/bootstrap.min.js"></script> -->
 </body>
+<footer>
+  <div class="row">
+    <div class="col-12"><small>&copy; v-monero test, Luca Virgilio, 2020</small></div>
+  </div>
+</footer>
 
 </html>
