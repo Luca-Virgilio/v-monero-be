@@ -5,7 +5,7 @@ body {
 }
 
 .container-header {
-  background-color: blue;
+  background-color:#007bff;
   padding         : 1rem 3rem;
   display         : flex;
   justify-content : flex-start;
@@ -16,6 +16,14 @@ body {
 @media (max-width: 576px) {
   .container-header {
     padding: 1rem 0rem;
+  }
+  .container-question{
+    padding: 2rem 0rem;
+  }
+}
+@media (min-width: 577px) {
+  .container-question{
+    padding: 3rem;
   }
 }
 
@@ -86,7 +94,22 @@ input {
   justify-content: center;
   align-items    : center;
   text-align: center;
-  padding-top: 3rem;
+}
+
+.cand-button{
+  border:2px solid black;
+  margin:1rem;
+}
+.thanks{
+  margin:2rem 3rem;
+}
+
+.thanksgiving-container{
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+  flex-direction: column;
+  padding-top:3rem;
 }
 
 footer {

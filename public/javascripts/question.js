@@ -64,19 +64,20 @@ async function timer () {
 };
 
 async function post(data) {
-    document.getElementById("mareButton").disabled = true;
-    document.getElementById("montagnaButton").disabled = true;
-    data.emitterCode = sessionStorage.getItem('emitterCode');
-    data.emissionDate = sessionStorage.getItem('emissionDate');
-    data.expireDate = sessionStorage.getItem('expireDate');
+    console.log("clicked",data);
+    document.getElementById("cand1_button").disabled = true;
+    document.getElementById("cand2_button").disabled = true;
+    // data.emitterCode = sessionStorage.getItem('emitterCode');
+    // data.emissionDate = sessionStorage.getItem('emissionDate');
+    // data.expireDate = sessionStorage.getItem('expireDate');
     data.cf = sessionStorage.getItem('cf');
     console.log(data);
-    const path = '/api/vote';
-    const res = await fetch(path, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    });
+    // const path = '/api/vote';
+    // const res = await fetch(path, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(data)
+    // });
     sessionStorage.removeItem('emitterCode');
     sessionStorage.removeItem('emissionDate');
     sessionStorage.removeItem('expireDate');

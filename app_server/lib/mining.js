@@ -58,7 +58,7 @@ const createWalletElector = async to => {
         console.log("existwalletElector", existElector.length, to);
         if (existElector.length < to) {
             const rows = [];
-            for (let i = existElector.length; i <= to; i++) {
+            for (let i = existElector.length; i < to; i++) {
                 // const rand = await randomBytesFy(10);
                 const name = `testEle${i}`;
                 const address = await ctrlBlockchain.createWallet(name);
