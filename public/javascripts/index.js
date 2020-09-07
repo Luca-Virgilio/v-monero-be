@@ -122,7 +122,7 @@ socket.on('device-deactivated', (error) => {
     document.getElementById("alertmsg").innerHTML = 'Errore. Device scollegato';
 });
 */
-const checkCf = async (data) =>{
+const checkCf = async (data) => {
     try {
         document.getElementById("go_btn").disabled = true;
         const cf = document.getElementById("cf").value;
@@ -137,8 +137,34 @@ const checkCf = async (data) =>{
         window.location.href = '/question.html';
 
     } catch (error) {
-        
+
     }
+}
+
+const cleanModal = _ => {
+    console.log("cleanModal")
+    document.getElementById("txId").value = null;
+    document.getElementById("txId-success").style.display = "none";
+    document.getElementById("txId-danger").style.display = "none";
+
+}
+const checkTxId = async _ => {
+    try {
+        document.getElementById("checkId").disabled = true;
+        const txId = document.getElementById("txId").value;
+        console.log("check", txId);
+        // const res = await fetch('/api/checkTxId', {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify(data)
+        // });
+        document.getElementById("txId-success").style.display = "block";
+        document.getElementById("txId-danger").style.display = "block";
+
+    } catch (error) {
+
+    }
+    document.getElementById("checkId").disabled = false;
 }
 
 const finish = async _ => {
