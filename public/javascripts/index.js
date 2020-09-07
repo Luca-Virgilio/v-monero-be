@@ -127,17 +127,18 @@ const checkCf = async (data) => {
         document.getElementById("go_btn").disabled = true;
         const cf = document.getElementById("cf").value;
         console.log("test", cf);
-        // const res = await fetch('/api/checkIdentity', {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(data)
-        // });
-        // console.log(res);
-        sessionStorage.setItem('cf', cf);
-        window.location.href = '/question.html';
-
+        const res = await fetch('/api/users/checkUser', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+        console.log(res);
+        if(res.status == 200){
+            sessionStorage.setItem('cf', cf);
+            window.location.href = '/question.html';
+        } else throw new Error (res.statusText);
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -153,11 +154,11 @@ const checkTxId = async _ => {
         document.getElementById("checkId").disabled = true;
         const txId = document.getElementById("txId").value;
         console.log("check", txId);
-        // const res = await fetch('/api/checkTxId', {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify(data)
-        // });
+        const res = await fetch('/api/users/checkTxId', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(txId)
+        });
         document.getElementById("txId-success").style.display = "block";
         document.getElementById("txId-danger").style.display = "block";
 

@@ -182,6 +182,20 @@ const getHeight = async _ => {
     }
 }
 
+const checkTxId = async (wallet, txId) => {
+    try {
+        await postRequest("close_wallet");
+        await postRequest("open_wallet", { "filename": wallet, "password": "" });
+        await postRequest("refresh", { "start_height": 0 });
+        const res = await postRequest("get_transactions", {"txs_hashes":[`${txId}`],"decode_as_json":true});
+        await postRequest("close_wallet");
+        console.log("from bc res:",res);
+        return res.result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const postRequest = async (method, params) => {
     try {
         // verify destination's wallet
@@ -215,5 +229,6 @@ module.exports = {
     startMining,
     stopMining,
     getHeight,
-    transferMultiple
+    transferMultiple,
+    checkTxId
 }

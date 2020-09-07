@@ -7,7 +7,7 @@ const ctrlBlockchain = require('../lib/blockchain');
 
 /* GET users listing. */
 router
-.route('/wallets')
+.route('/')
 .post(walletController.createWallet)
 .get(walletController.getWallets);
 
@@ -30,15 +30,15 @@ router.post('/mining', async (req, res) => {
 });
 
 router
-.route('/wallets/:id')
+.route('/:id')
 .get(walletController.getWalletInfo);
 
 router
-.route('/wallets/:id/vote')
+.route('/:id/vote')
 .post(walletController.vote);
 
 router
-.route('/wallets/multiple_creation')
+.route('/multiple_creation')
 .post(walletController.multipleCreation);
 
 router

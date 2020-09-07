@@ -63,24 +63,25 @@ async function timer () {
     });
 };
 
-async function post(data) {
-    console.log("clicked",data);
+async function post(vote) {
+    console.log("clicked",vote);
     document.getElementById("cand1_button").disabled = true;
     document.getElementById("cand2_button").disabled = true;
     // data.emitterCode = sessionStorage.getItem('emitterCode');
     // data.emissionDate = sessionStorage.getItem('emissionDate');
     // data.expireDate = sessionStorage.getItem('expireDate');
+    const data = {};
     data.cf = sessionStorage.getItem('cf');
+    data.vote = vote;
     console.log(data);
-    // const path = '/api/vote';
-    // const res = await fetch(path, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(data)
-    // });
-    sessionStorage.removeItem('emitterCode');
-    sessionStorage.removeItem('emissionDate');
-    sessionStorage.removeItem('expireDate');
+    const res = await fetch('/api/users/vote', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    // sessionStorage.removeItem('emitterCode');
+    // sessionStorage.removeItem('emissionDate');
+    // sessionStorage.removeItem('expireDate');
     sessionStorage.removeItem('cf');
     window.location.href = '/thanksgiving.html';
 }
