@@ -5,12 +5,12 @@ const userController = require('../controllers/users.js');
 // /* GET users listing. */
 router
 .route('/checkUser')
-.get(userController.checkUser);
+.post(userController.checkUser);
 
 router.post('/vote', userController.sendVote);
 
 
-router.get('/checkTxId', userController.checkTxId);
+router.post('/checkTxId', userController.checkTxId);
 
 
 

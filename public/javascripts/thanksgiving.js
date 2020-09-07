@@ -1,10 +1,13 @@
 
-let count = 10;
+let count = 20;
 
 
 async function countDown() {
     try {
-        if(count == 10) document.getElementById("txId").innerText = "Il tuo transaction Id è";
+        if(count == 20) {
+            const txId = sessionStorage.getItem("txId");
+            document.getElementById("txId").innerText = `Il tuo transaction Id è ${txId}`;
+        }
         if (count > 0) {
             console.log('timer ', count);
             count--;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const DbUser = mongoose.model('User');
-const DbWallet = mongoose.model('User');
+const DbWallet = mongoose.model('Wallet');
 // // hash function
 const crypto = require('crypto');
 const pdkdf2 = require('../../app_server/lib/pdkdf2');
@@ -9,29 +9,31 @@ const blockchain = require('../lib/blockchain');
 const checkUser = async (req, res) => {
     try {
         const { cf } = req.body;
+        console.log(cf);
         const msg = await checkUserIdentity(cf);
         if (msg == true) {
-            res.status(200).json(msg);
+            res.status(200).json({"result":msg});
         } else {
-            res.status(400).json(msg);
+            res.status(400).json({"error":msg});
         }
     } catch (error) {
         console.log(error);
-        return res.status(400).json(error.message);
+        return res.status(400).json({"error":error.message});
     }
 }
 
 const sendVote = async (req, res) => {
     try {
         const { cf, vote } = req.body;
+        console.log(cf, vote);
         const msg = await checkUserIdentity(cf);
         if (msg != true) throw new Error(msg);
-        const flag = checkVote();
+        const flag = checkVote(vote);
         if (flag == false) throw new Error('Il candidato espresso non è corretto');
-
         // find candidate 
-        const { address } = await DbWallet.find({ type: "candidate", name: vote });
-        console.log("candidate addres found:", address);
+        const query1 = await DbWallet.find({ type: "candidate", name: vote });
+        const {address} = query1[0];
+        console.log("candidate addres found:", vote, address);
         // fill vote for all candidate
         candidates = [];
         candidates.push(address);
@@ -40,8 +42,10 @@ const sendVote = async (req, res) => {
             candidates.push(cand.address);
         });
         // choose elector wallet
-        const { _id:id, name } = await DbWallet.find({ type: "elector", loaded: true, isUsed: false }).limit(1);
+        const query2 = await DbWallet.find({ type: "elector", loaded: true, isUsed: false }).limit(1);
+        const { _id:id, name } = query2[0];
         console.log("wallet elector:", id, name);
+        if(!name || candidates.length == 0) throw new Error ('errore nel sistema');
         const result = await blockchain.transferMultiple(name, candidates);
         console.log("result voting", result);
         //updateWallet
@@ -52,27 +56,30 @@ const sendVote = async (req, res) => {
         const hash = await pdkdf2.createHash(cf, salt);
         const newUser = await DbUser.create({cf:hash, wallet:name});
         console.log("new user", newUser);
-        return res.status(200).json(result);
+        const {tx_hash} = result.result;
+        console.log("tx_hash", tx_hash);
+        return res.status(200).json({"txId":tx_hash});
     } catch (error) {
         console.log(error);
-        return res.status(400).json(error.message);
+        return res.status(400).json({"error":error.message});
     }
 }
 
 const checkTxId = async (req, res) => {
     try {
         const {txId} = req.body;
+        console.log("txId", txId);
         const result = await blockchain.checkTxId('admin',txId);
         return res.status(200).json(result);
     } catch (error) {
         console.log(error);
-        return res.status(400).json(error.message);
+        return res.status(400).json({"error":error.message});
     }
 }
 
 const checkUserIdentity = async cf => {
     try {
-        if (!cf || checkCf() == false) throw new Error('errore nel codice fiscale');
+        if (!cf || checkCf(cf) == false) throw new Error('Inserire un codice fiscale valido');
         const salt = await pdkdf2.getSalt();
         const hash = await pdkdf2.createHash(cf, salt);
         const users = await DbUser.find({ cf: hash });
@@ -80,11 +87,11 @@ const checkUserIdentity = async cf => {
         if (users.length == 0) {
             return true;
         } else {
-            return 'L\'utente ha già espresso il voto';
+            return 'L\'utente con questo codice fiscale ha già espresso il voto';
         }
     } catch (error) {
         console.log(error);
-        return error;
+        throw error;
     }
 }
 const checkVote = (vote) => {
@@ -97,8 +104,9 @@ const checkVote = (vote) => {
     return flag;
 
 }
-const checkCf = cf => {
-    const re = /^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/i
+const checkCf = (cf) => {
+    console.log("checkCf". cf);
+    const re = /^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/;
     const pattCf = new RegExp(re);
     const flag = pattCf.test(cf);
     console.log("pattern cf", flag);

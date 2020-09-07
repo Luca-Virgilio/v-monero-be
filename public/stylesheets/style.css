@@ -66,6 +66,11 @@ body {
   margin-left  : -16px;
   margin-bottom: 0.5em;
 }
+.container-main{
+  display        : flex;
+  justify-content: center;
+  align-items    : baseline;
+}
 
 .container-verify {
   margin-top: 3rem;

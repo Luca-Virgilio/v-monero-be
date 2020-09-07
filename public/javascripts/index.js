@@ -122,24 +122,34 @@ socket.on('device-deactivated', (error) => {
     document.getElementById("alertmsg").innerHTML = 'Errore. Device scollegato';
 });
 */
-const checkCf = async (data) => {
+const checkCf = async _ => {
     try {
         document.getElementById("go_btn").disabled = true;
         const cf = document.getElementById("cf").value;
         console.log("test", cf);
+        const data = {};
+        data.cf = cf.toUpperCase();
         const res = await fetch('/api/users/checkUser', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
         console.log(res);
-        if(res.status == 200){
-            sessionStorage.setItem('cf', cf);
+        if (res.status == 200) {
+            sessionStorage.setItem('cf', data.cf);
             window.location.href = '/question.html';
-        } else throw new Error (res.statusText);
+        } else {
+            const objRes = await res.json();
+            document.getElementById("cf-danger").innerHTML = objRes.error;
+            document.getElementById("cf-danger").style.display = "block";
+        }
     } catch (error) {
         console.log(error);
     }
+    document.getElementById("go_btn").disabled = false;
+}
+const hideAlert = (id) => {
+    document.getElementById(id).style.display = "none";
 }
 
 const cleanModal = _ => {
@@ -154,13 +164,19 @@ const checkTxId = async _ => {
         document.getElementById("checkId").disabled = true;
         const txId = document.getElementById("txId").value;
         console.log("check", txId);
+        if (!txId) throw new error('Input error');
+        const data = {};
+        data.txId = txId;
         const res = await fetch('/api/users/checkTxId', {
-            method: "POST",
+            method: "   POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(txId)
+            body: JSON.stringify(data)
         });
-        document.getElementById("txId-success").style.display = "block";
-        document.getElementById("txId-danger").style.display = "block";
+        if (res.status == 200) {
+            document.getElementById("txId-success").style.display = "block";
+        } else {
+            document.getElementById("txId-danger").style.display = "block";
+        }
 
     } catch (error) {
 

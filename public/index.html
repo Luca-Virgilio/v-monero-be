@@ -34,9 +34,10 @@
       </div>
     </div>
     <div>
-      <div class="flex">
+      <div class=container-main>
         <div class="container-cf">
-          <input type="text" id="cf" class="form-control" placeholder="Codice fiscale" aria-describedby="basic-addon1">
+          <input type="text" id="cf" style="text-transform: uppercase;" class="form-control" placeholder="Codice fiscale" aria-describedby="basic-addon1" onfocus="hideAlert('cf-danger')">
+          <div class="alert alert-danger" id="cf-danger" role="alert" style="display:none">aaa</div>
         </div>
         <div class="go-btn">
           <button id="go_btn" class="btn btn-primary btn-lg btn-block" onclick="checkCf()">Avanti</button>
@@ -44,7 +45,8 @@
       </div>
       <div class="flex container-verify">
         <div>
-          <button id="verfy_btn" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" onclick="cleanModal()">Verifica
+          <button id="verfy_btn" class="btn btn-secondary btn-lg btn-block" data-toggle="modal"
+            data-target="#exampleModal" onclick="cleanModal()">Verifica
             transactionId</button>
         </div>
       </div>
@@ -77,7 +79,8 @@
       </div>
     </div> -->
   </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -88,9 +91,12 @@
         </div>
         <div class="modal-body">
           <div class="container-txId">
-            <input type="number" id="txId" class="form-control" placeholder="Transaction Id" aria-describedby="basic-addon1">
-            <div class="alert alert-success" id="txId-success" role="alert" style="display:none">Il tuo voto è stato conteggiato con successo</div>
-            <div class="alert alert-danger" id="txId-danger" role="alert" style="display:none">Il tuo voto non è stato ancora conteggiato. 
+            <input type="text" id="txId" class="form-control" placeholder="Transaction Id"
+              aria-describedby="basic-addon1">
+            <div class="alert alert-success" id="txId-success" role="alert" style="display:none">Il tuo voto è stato
+              conteggiato con successo</div>
+            <div class="alert alert-danger" id="txId-danger" role="alert" style="display:none">Il tuo voto non è stato
+              ancora conteggiato.
               Assicurarsi che sia trascorsa 1 ora da quanto è stato espresso il voto</div>
           </div>
         </div>
@@ -102,8 +108,8 @@
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-  crossorigin="anonymous"></script>
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
