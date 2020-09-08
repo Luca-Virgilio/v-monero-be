@@ -1,87 +1,88 @@
 body {
-  font-family     : "Cabin", Arial, sans-serif;
-  color           : black;
+  font-family: "Cabin", Arial, sans-serif;
+  color: black;
   background-color: #8df5e169;
 }
 
 .container-header {
-  background-color:#007bff;
-  padding         : 1rem 3rem;
-  display         : flex;
-  justify-content : flex-start;
-  align-items     : center;
-  color           : white;
+  background-color: #007bff;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
 }
 
 @media (max-width: 576px) {
   .container-header {
     padding: 1rem 0rem;
   }
-  .container-question{
+  .container-question {
     padding: 2rem 0rem;
   }
 }
+
 @media (min-width: 577px) {
-  .container-question{
+  .container-question {
     padding: 3rem;
   }
 }
 
 .img-fluid {
   max-width: 100%;
-  height   : auto
+  height: auto
 }
 
 .logo {
   max-width: 100px;
-  height   : auto;
-  padding  : 1rem;
+  height: auto;
+  padding: 1rem;
 }
 
 .card {
   background-color: inherit;
-  padding         : 1rem;
+  padding: 1rem;
 }
 
 .title-container {
-  margin        : 4rem 0rem;
-  text-align    : center;
+  margin: 4rem 0rem;
+  text-align: center;
   padding-bottom: 0.5rem;
 }
 
 .flex {
-  display        : flex;
+  display: flex;
   justify-content: center;
-  align-items    : center;
-
+  align-items: center;
 }
 
 .container-title-description {
   text-align: center;
-  border    : none;
+  border: none;
 }
 
 .review {
-  margin-right : -16px;
-  margin-left  : -16px;
+  margin-right: -16px;
+  margin-left: -16px;
   margin-bottom: 0.5em;
 }
-.container-main{
-  display        : flex;
+
+.container-main {
+  display: flex;
   justify-content: center;
-  align-items    : baseline;
+  align-items: baseline;
 }
 
 .container-verify {
   margin-top: 3rem;
-  padding   : 2rem;
+  padding: 2rem;
 }
 
 .container-cf {
-  flex-grow : 2;
+  flex-grow: 2;
   /* padding: 2rem 3rem 0rem 1rem; */
-  max-width : 500px;
-  border    : none;
+  max-width: 500px;
+  border: none;
 }
 
 input {
@@ -90,47 +91,61 @@ input {
 
 .go-btn {
   flex-grow: 1;
-  margin   : 2rem;
+  margin: 2rem;
   max-width: 200px;
 }
 
-.container-question{
-  display        : flex;
+.container-question {
+  display: flex;
   justify-content: center;
-  align-items    : center;
+  align-items: center;
   text-align: center;
 }
 
-.cand-button{
-  border:2px solid black;
-  margin:1rem;
-}
-.thanks{
-  margin:2rem 3rem;
+.cand-button {
+  border: 2px solid black;
+  margin: 1rem;
 }
 
-.thanksgiving-container{
-  display        : flex;
+.thanks {
+  margin: 2rem 3rem;
+}
+
+.thanksgiving-container {
+  display: flex;
   justify-content: center;
-  align-items    : center;
+  align-items: center;
   flex-direction: column;
-  padding-top:3rem;
+  padding-top: 3rem;
+  text-align: center;
+}
+
+#txId-value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75vw;
+}
+
+.tx-id-description{
+  margin-top: 1rem;
 }
 
 footer {
   position: absolute;
-  bottom  : 0;
-  height  : 50px;
-  padding : 0rem 1rem;
+  bottom: 0;
+  height: 50px;
+  padding: 0rem 1rem;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0;
+  /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+  -moz-appearance: textfield;
+  /* Firefox */
 }
