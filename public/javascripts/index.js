@@ -163,18 +163,25 @@ const checkTxId = async _ => {
     try {
         document.getElementById("checkId").disabled = true;
         const txId = document.getElementById("txId").value;
-        console.log("check", txId);
         if (!txId) throw new error('Input error');
         const data = {};
         data.txId = txId;
+        console.log("check", data);
+
         const res = await fetch('/api/users/checkTxId', {
-            method: "   POST",
+            method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
+        const obj = await res.json();
+        console.log(obj);
         if (res.status == 200) {
+            document.getElementById("txId-success").innerHTML = 'Il tuo voto è stato conteggiato con successo';
             document.getElementById("txId-success").style.display = "block";
         } else {
+            document.getElementById("txId-danger").innerHTML = (obj.in_pool == true && obj.double_spend_seen == false)
+                ? 'Il tuo voto non è stato ancora conteggiato. Bisogna attendere 1 ora da quanto è stato espresso il voto'
+                : 'Si è verificato un problema nel sistema';
             document.getElementById("txId-danger").style.display = "block";
         }
 

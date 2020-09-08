@@ -185,7 +185,7 @@ const getHeight = async _ => {
 const checkTxId = async (wallet, txId) => {
     try {
         await postRequest("close_wallet");
-        const url = "http://127.0.0.1:30014/get_transactions";
+        const url = "http://127.0.0.1:30011/get_transactions";
         const body =  {"txs_hashes":[`${txId}`],"decode_as_json":true};
         const response = await fetch(url, {
             method: 'post',
@@ -193,8 +193,8 @@ const checkTxId = async (wallet, txId) => {
             headers: { 'Content-Type': 'application/json' },
         });
         const res = await response.json();
-        console.log("from bc res:",res);
-        return res.result;
+        const info = res.txs[0];
+        return info;
     } catch (error) {
         console.log(error);
     }
