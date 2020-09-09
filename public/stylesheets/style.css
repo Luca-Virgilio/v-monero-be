@@ -55,6 +55,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+.flex-column {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 .container-title-description {
   text-align: center;
@@ -144,6 +150,10 @@ input {
 
 .tx-id-description {
   margin-top: 1rem;
+}
+
+.container-graph{
+  margin:3rem
 }
 
 footer {

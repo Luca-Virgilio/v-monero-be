@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
+    value:{
+        type:Number
+    },
     type: {
         type:String,
         enum:['admin', 'elector', 'candidate'],

@@ -79,6 +79,40 @@ const checkTxId = async (req, res) => {
     }
 }
 
+const getResults = async (req, res) => {
+    try {
+        const candidates = await DbWallet.find({ type: "candidate" });
+        elements = [];
+        for(let cand of candidates){
+            if (cand.value) elements.push({ "name":cand.name, "value": cand.value });
+            else {
+                const obj = await getBalance(cand.name, cand._id);
+                elements.push(obj);
+            }
+        }
+        res.status(200).json({ "candidates": elements });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json({ "error": error.message });
+    }
+}
+
+const getBalance = async (name, id) => {
+    try {
+        const balance = await blockchain.getBalance(name);
+        const rounded = Math.floor(balance);
+        console.log("balance", rounded);
+        const newRow = await DbWallet.findByIdAndUpdate(id, { value: rounded });
+        console.log("updated", newRow);
+        return { name, "value": rounded };
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+
+
+}
+
 const checkUserIdentity = async cf => {
     try {
         if (!cf || checkCf(cf) == false) throw new Error('Inserire un codice fiscale valido');
@@ -118,5 +152,6 @@ const checkCf = (cf) => {
 module.exports = {
     checkUser,
     sendVote,
-    checkTxId
+    checkTxId,
+    getResults
 }

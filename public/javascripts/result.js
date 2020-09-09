@@ -1,19 +1,19 @@
 window.onload = async function () {
-    const res_mare = await GetResult("mare");
-    const res_montagna = await GetResult("montagna");
-    this.renderColumnChart(res_mare, res_montagna);
-    stopMining();
+    const res = await GetResult();
+    console.log(res);
+    this.renderColumnChart(res[0].value, res[1].value);
+    // stopMining();
 }
 
-renderColumnChart = (num_mare, num_montagna) => {
+renderColumnChart = (cand1_value, cand2_value) => {
     Chart.defaults.global.defaultFontColor ='black'
     var ctx = document.getElementById('chartContainer');
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Mare', 'Montagna'],
+            labels: ['Si', 'No'],
             datasets: [{
-                data: [num_mare, num_montagna],
+                data: [cand1_value, cand2_value],
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
@@ -45,16 +45,16 @@ renderColumnChart = (num_mare, num_montagna) => {
     });
 }
 
-GetResult = async (candidate) => {
+GetResult = async () => {
     try {
-        const path = 'http://localhost:3000/api/' + candidate;
+        const path = '/api/users/getResults'
         const res = await fetch(path, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             mode: 'cors'
         });
         const obj = await res.json();
-        return obj.balance;
+        return obj.candidates;
     } catch (error) {
         console.log(error);
     }

@@ -12,6 +12,8 @@ router.post('/vote', userController.sendVote);
 
 router.post('/checkTxId', userController.checkTxId);
 
+router.get('/getResults', userController.getResults);
+
 
 
 module.exports = router;
