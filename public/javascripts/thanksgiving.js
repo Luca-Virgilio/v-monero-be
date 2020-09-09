@@ -10,7 +10,6 @@ async function countDown() {
               })
             const txId = sessionStorage.getItem("txId");
             document.getElementById("txId-value").innerHTML = `${txId}`;
-
         }
         if (count > 0) {
             console.log('timer ', count);

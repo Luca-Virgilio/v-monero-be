@@ -22,28 +22,25 @@
     </div>
     <!--  -->
     <div class="container">
-        <div class="alert alert-danger" id="alertmsg" role="alert" style="display: none; text-align:center">
-        </div>
-            <div class="container-question">
-                <h3>Utilizzi la mascherina secondo quanto previsto dalla normativa vigente?</h3>
-            </div>
-        <div class="row">
-            <!-- <div class="card col-xs-10 col-md-6">
-                <button id="mareButton" onclick="post({vote:'cand1'})"> <img class="featurette-image img-fluid"
-                        src="/images/si.jpg">
-                </button>
-            </div> -->
-            <div class="col-6 offset-3 col-sm-4 offset-sm-1">
-                <div id="cand1_button" class="cand-button" onclick="post('cand1')"> <img class="featurette-image img-fluid"
-                        src="/images/yes_bw.png" alt="si">
-                </div>
-            </div>
-            <div class="col-6 offset-3 col-sm-4 offset-sm-2">
-                <div id="cand2_button" class="cand-button" onclick="post('cand2')"> <img class="featurette-image img-fluid"
-                    src="/images/no_bw.png" alt="si">
-                </div>
+        <div class="d-flex justify-content-center spinner-container">
+            <div class="spinner-border spinner-border-lg text-danger" role="status" id="spin" style="display: none">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
+    <div class="container-question">
+        <h3>Utilizzi la mascherina secondo quanto previsto dalla normativa vigente?</h3>
+    </div>
+    <div class="alert alert-danger" id="error-danger" role="alert" style="text-align: center;display:none"></div>
+    <div class="row">
+        <div class="container-cand-button col-6 offset-3 col-sm-4 offset-sm-1">
+            <button id="cand1_button" onclick="post('cand1')"> <img class="featurette-image img-fluid"
+                    src="/images/yes_bw.png">
+        </div>
+        <div class="container-cand-button col-6 offset-3 col-sm-4 offset-sm-2">
+            <button id="cand2_button" onclick="post('cand2')"> <img class="featurette-image img-fluid"
+                    src="/images/no_bw.png">
+        </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -57,7 +54,8 @@
 </body>
 <footer>
     <div class="row">
-      <div class="col-12"><small>&copy; v-monero test, Luca Virgilio, 2020</small></div>
+        <div class="col-12"><small>&copy; v-monero test, Luca Virgilio, 2020</small></div>
     </div>
-  </footer>
+</footer>
+
 </html>

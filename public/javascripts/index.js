@@ -122,6 +122,7 @@ socket.on('device-deactivated', (error) => {
     document.getElementById("alertmsg").innerHTML = 'Errore. Device scollegato';
 });
 */
+
 const checkCf = async _ => {
     try {
         document.getElementById("go_btn").disabled = true;
@@ -186,7 +187,7 @@ const checkTxId = async _ => {
         }
 
     } catch (error) {
-
+        console.log(error);
     }
     document.getElementById("checkId").disabled = false;
 }

@@ -68,6 +68,7 @@ async function post(vote) {
         console.log("clicked", vote);
         document.getElementById("cand1_button").disabled = true;
         document.getElementById("cand2_button").disabled = true;
+        document.getElementById("spin").style.display = "block";
         const data = {};
         data.cf = sessionStorage.getItem('cf');
         data.vote = vote;
@@ -80,17 +81,25 @@ async function post(vote) {
         const obj = await res.json();
         if (res.status == 200) {
             console.log(obj);
-            sessionStorage.setItem("txId",obj.txId);
+            sessionStorage.setItem("txId", obj.txId);
             sessionStorage.removeItem('cf');
             window.location.href = '/thanksgiving.html';
+            document.getElementById("cand1_button").disabled = false;
+            document.getElementById("cand2_button").disabled = false;
         } else {
-            const obj = await res.json();
             console.log(obj);
-            throw new Error (obj.error);
+            document.getElementById("error-danger").innerHTML = obj.error;
+            document.getElementById("error-danger").style.display = "block";
+            setTimeout(function () {
+                document.getElementById("error-danger").style.display = "none";
+                document.getElementById("cand1_button").disabled = false;
+                document.getElementById("cand2_button").disabled = false;
+            }, 5000);
         }
     } catch (error) {
         console.log(error);
     }
+    document.getElementById("spin").style.display = "none";
 
 
 }
