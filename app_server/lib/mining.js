@@ -1,9 +1,9 @@
 
 const ctrlBlockchain = require('../../app_api/lib/blockchain');
-const { randomBytesFy } = require('./pdkdf2');
 const mongoose = require('mongoose');
 const wallets = require('../../app_api/controllers/wallets');
 const Wallet = mongoose.model('Wallet');
+const Info = mongoose.model('Info');
 
 const mining = async (time) => {
     try {
@@ -59,7 +59,6 @@ const createWalletElector = async to => {
         if (existElector.length < to) {
             const rows = [];
             for (let i = existElector.length; i < to; i++) {
-                // const rand = await randomBytesFy(10);
                 const name = `testEle${i}`;
                 const address = await ctrlBlockchain.createWallet(name);
                 const type = "elector"
@@ -75,20 +74,25 @@ const createWalletElector = async to => {
 
 const setUpElector = async _ => {
     try {
-        // do {
-            console.log("********* setUpElector");
-            const wallets = await Wallet.find({ type: "elector", loaded: false }).limit(11);
-            console.log('num', wallets.length );
-            if (wallets.length > 0) {
-                const electorsAddress = wallets.map(wallet => wallet.address);
-                await ctrlBlockchain.transferMultiple('admin', electorsAddress);
-                const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(10000)];
-                await Promise.all(promises);
-                console.log("recall");
-                setUpElector();
-            } else return;
-        // } while (wallets.length != 0);
-        return;
+        console.log("********* setUpElector");
+        const wallets = await Wallet.find({ type: "elector", loaded: false }).limit(11);
+        console.log('num', wallets.length);
+        if (wallets.length > 0) {
+            const electorsAddress = wallets.map(wallet => wallet.address);
+            await ctrlBlockchain.transferMultiple('admin', electorsAddress);
+            const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(10000)];
+            await Promise.all(promises);
+            console.log("recall");
+            setUpElector();
+        } else {
+            const info = await Info.find();
+            if (info.length == 0) {
+                const setVoting = await Info.create({ isVoting: true });
+                console.log("setVoting", setVoting);
+            } else
+                console.log("setVoting", info[0]);
+            return;
+        }
     } catch (error) {
         console.log(error);
         await ctrlBlockchain.stopMining();

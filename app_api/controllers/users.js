@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const DbUser = mongoose.model('User');
 const DbWallet = mongoose.model('Wallet');
+const InfoDB = mongoose.model('Info');
 // // hash function
 const crypto = require('crypto');
 const pdkdf2 = require('../../app_server/lib/pdkdf2');
@@ -26,6 +27,9 @@ const sendVote = async (req, res) => {
     try {
         const { cf, vote } = req.body;
         console.log(cf, vote);
+        const info = await InfoDB.find().limit(1);
+        console.log(info);
+        if(info[0].isVoting == false) throw new Error('La votazione è terminata. Non è più possibile esprimere voti');
         const msg = await checkUserIdentity(cf);
         if (msg != true) throw new Error(msg);
         const flag = checkVote(vote);
@@ -81,6 +85,9 @@ const checkTxId = async (req, res) => {
 
 const getResults = async (req, res) => {
     try {
+        const info = await InfoDB.find().limit(1);
+        console.log(info);
+        if(info[0].isVoting == true) throw new Error('La votazione è in corso. Solo al termine è possibile vedere i risultati');
         const candidates = await DbWallet.find({ type: "candidate" }).sort({name:1});
         elements = [];
         for(let cand of candidates){

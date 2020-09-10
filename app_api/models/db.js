@@ -47,6 +47,7 @@ process.on('SIGTERM', () => {
 require('./users');
 require('./salt');
 require('./wallets');
+require('./info');
 
 
 

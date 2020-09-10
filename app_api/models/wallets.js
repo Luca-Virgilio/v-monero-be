@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     },
     type: {
         type:String,
-        enum:['admin', 'elector', 'candidate'],
+        enum:['elector', 'candidate'],
         default: 'elector'
     }
 });

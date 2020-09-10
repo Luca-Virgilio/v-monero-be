@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const walletController = require('../controllers/wallets.js');
-const ctrlVoting = require('../controllers/vote');
 const ctrlBlockchain = require('../lib/blockchain');
 
 
