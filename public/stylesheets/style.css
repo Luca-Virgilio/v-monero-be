@@ -1,7 +1,21 @@
+html, body {  height: 100%; }
+
+.container-all {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -100px; 
+}
+
+.footer, #push {
+    height: 100px; 
+}
+
 body {
   font-family: "Cabin", Arial, sans-serif;
   color: black;
   background-color: #8df5e169;
+  /* background-color: #6c757d26; */
 }
 
 .container-header {
@@ -20,11 +34,25 @@ body {
   .container-question {
     padding: 2rem 0rem;
   }
+  .title-container {
+    margin: 1rem 0rem;
+  }
+  .container-verify {
+    margin-top: 0rem;
+    padding: 1rem;
+}
 }
 
 @media (min-width: 577px) {
   .container-question {
     padding: 3rem;
+  }
+  .container-verify {
+    margin-top: 3rem;
+    padding: 2rem;
+  }
+  .title-container {
+    margin: 4rem 0rem;
   }
 }
 
@@ -45,7 +73,7 @@ body {
 }
 
 .title-container {
-  margin: 4rem 0rem;
+  /* margin: 4rem 0rem; */
   text-align: center;
   padding-bottom: 0.5rem;
 }
@@ -79,10 +107,6 @@ body {
   align-items: baseline;
 }
 
-.container-verify {
-  margin-top: 3rem;
-  padding: 2rem;
-}
 
 .container-cf {
   flex-grow: 2;
@@ -156,11 +180,11 @@ input {
   margin:3rem
 }
 
-footer {
-  position: absolute;
-  bottom: 0;
-  height: 50px;
-  padding: 0rem 1rem;
+.footer {
+  padding: 60px 1rem 0rem 1rem;
+  justify-content: left;
+  display: flex;
+  text-align: center;
 }
 
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {

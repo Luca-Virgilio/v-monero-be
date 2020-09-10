@@ -81,7 +81,7 @@ const checkTxId = async (req, res) => {
 
 const getResults = async (req, res) => {
     try {
-        const candidates = await DbWallet.find({ type: "candidate" });
+        const candidates = await DbWallet.find({ type: "candidate" }).sort({name:1});
         elements = [];
         for(let cand of candidates){
             if (cand.value) elements.push({ "name":cand.name, "value": cand.value });

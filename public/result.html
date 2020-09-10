@@ -11,24 +11,29 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="./javascripts/result.js"></script>
 </head>
-
 <body>
-    <div class="container-fluid container-header">
-        <div>
-            <img src="./images/Logo_Università_Milano-Bicocca.svg.png" class="mlr-3 logo" alt="università_Bicocca">
+    <div class="container-all">
+        <div class="container-fluid container-header">
+            <div>
+                <img src="./images/Logo_Università_Milano-Bicocca.svg.png" class="mlr-3 logo" alt="università_Bicocca">
+            </div>
+            <div>
+                <h3>Università degli studi di Milano-Bicocca</h3>
+            </div>
         </div>
-        <div>
-            <h3>Università degli studi di Milano-Bicocca</h3>
+        <!--  -->
+        <div class="flex-column">
+            <div class="thanks">
+                <h1>Risultati</h1>
+            </div>
+            <div class="container-graph">
+                <canvas id="chartContainer" style="height: 370px; width: 100%;"></canvas>
+            </div>
         </div>
+        <div id="push"> </div>
     </div>
-    <!--  -->
-    <div class="flex-column">
-        <div class="thanks">
-            <h1>Risultati</h1>
-        </div>
-        <div class="container-graph">
-            <canvas id="chartContainer" style="height: 370px; width: 100%;"></canvas>
-        </div>
+    <div class="footer">
+        <div><small>&copy; v-monero test, Luca Virgilio, 2020</small></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -40,9 +45,5 @@
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
 </body>
-<footer>
-    <div class="row">
-        <div class="col-12"><small>&copy; v-monero test, Luca Virgilio, 2020</small></div>
-    </div>
-</footer>
+
 </html>
