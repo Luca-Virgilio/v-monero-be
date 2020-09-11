@@ -47,9 +47,10 @@ const sendVote = async (req, res) => {
         });
         // choose elector wallet
         const query2 = await DbWallet.find({ type: "elector", loaded: true, isUsed: false }).limit(1);
+        if(query2.length == 0) throw new Error('Non sono più disponibili wallet per votare');
         const { _id: id, name } = query2[0];
         console.log("wallet elector:", id, name);
-        if (!name || candidates.length == 0) throw new Error('errore nel sistema');
+        if (!name || candidates.length == 0) throw new Error('Errore nella scelta del candidato');
         const result = await blockchain.transferMultiple(name, candidates);
         console.log("result voting", result);
         //updateWallet
