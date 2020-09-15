@@ -30,7 +30,7 @@ const main = async _ => {
   const setupPromises = [pdkdf2.createSalt(), ctrlBlockchain.createCandidates(["cand1", "cand2"])];
   await Promise.all(setupPromises);
   const timerMining = require('../app_server/lib/mining');
-  await timerMining.createWalletElector(40);
+  await timerMining.createWalletElector(50);
   await timerMining.setupMining();
   timerMining.manageMining();
   await timerMining.setUpElector();

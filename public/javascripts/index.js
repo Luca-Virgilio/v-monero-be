@@ -149,8 +149,11 @@ const checkCf = async _ => {
     }
     document.getElementById("go_btn").disabled = false;
 }
-const hideAlert = (id) => {
-    document.getElementById(id).style.display = "none";
+const hideAlert = (elements) => {
+    const temp = elements.map(id => {
+        document.getElementById(id).style.display = "none";
+        return id;
+    });
 }
 
 const cleanModal = _ => {
@@ -164,7 +167,8 @@ const checkTxId = async _ => {
     try {
         document.getElementById("checkId").disabled = true;
         const txId = document.getElementById("txId").value;
-        if (!txId) throw new error('Input error');
+        console.log("aaa", txId==undefined, txId == null, !txId);
+        if (!txId) throw new Error('Inserire un Id valido');
         const data = {};
         data.txId = txId;
         console.log("check", data);
@@ -182,12 +186,14 @@ const checkTxId = async _ => {
         } else {
             document.getElementById("txId-danger").innerHTML = (obj.in_pool == true && obj.double_spend_seen == false)
                 ? 'Il tuo voto non è stato ancora conteggiato. Bisogna attendere 1 ora da quanto è stato espresso il voto'
-                : 'Si è verificato un problema nel sistema';
+                : 'Inserire un Id valido';
             document.getElementById("txId-danger").style.display = "block";
         }
 
     } catch (error) {
         console.log(error);
+        document.getElementById("txId-danger").innerHTML = error;
+        document.getElementById("txId-danger").style.display = "block";
     }
     document.getElementById("checkId").disabled = false;
 }
