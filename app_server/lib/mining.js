@@ -35,9 +35,13 @@ async function timer(time) {
 const setupMining = async _ => {
     try {
         await ctrlBlockchain.startMining();
+        // await some seconds to start mining
+        // there is a bug. getHegiht return height:293 if 1st block doesn't exist 
+        await timer(10000);
         let flag = true;
         while (flag) {
             const res = await ctrlBlockchain.getHeight();
+            console.log("res height", res);
             if (res.height > 100) {
                 await ctrlBlockchain.stopMining();
                 console.log("setupMining complete. Blockchain height:", res.height);
