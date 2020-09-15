@@ -1,14 +1,20 @@
-html, body {  height: 100%; }
+html, body {
+  height: 100%;
+}
+
+a {
+  color: white
+}
 
 .container-all {
-    min-height: 100%;
-    height: auto !important;
-    height: 100%;
-    margin: 0 auto -100px; 
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -100px;
 }
 
 .footer, #push {
-    height: 100px; 
+  height: 100px;
 }
 
 body {
@@ -27,6 +33,19 @@ body {
   color: white;
 }
 
+.container-header-home {
+  background-color: #007bff;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+.container-home {
+  padding-right: 1rem;
+}
+
 @media (max-width: 576px) {
   .container-header {
     padding: 1rem 0rem;
@@ -40,7 +59,13 @@ body {
   .container-verify {
     margin-top: 0rem;
     padding: 1rem;
+  }
 }
+
+@media (max-width: 767px) {
+  #uni {
+    display: none;
+  }
 }
 
 @media (min-width: 577px) {
@@ -83,6 +108,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .flex-column {
   display: flex;
   justify-content: center;
@@ -106,7 +132,6 @@ body {
   justify-content: center;
   align-items: baseline;
 }
-
 
 .container-cf {
   flex-grow: 2;
@@ -144,7 +169,8 @@ input {
   height: 70px;
   width: 70px;
 }
-#cand1_button, #cand2_button{
+
+#cand1_button, #cand2_button {
   background-color: white;
 }
 
@@ -176,8 +202,8 @@ input {
   margin-top: 1rem;
 }
 
-.container-graph{
-  margin:3rem
+.container-graph {
+  margin: 3rem
 }
 
 .footer {
