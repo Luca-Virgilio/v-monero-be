@@ -36,12 +36,14 @@ const sendVote = async (req, res) => {
         if (flag == false) throw new Error('Il candidato espresso non è corretto');
         // find candidate 
         const query1 = await DbWallet.find({ type: "candidate", name: vote });
+        if(query1.length == 0) throw new Error("Errore nella scelta del candidato o nella creazione del proprio wallet");
         const { address } = query1[0];
         console.log("candidate addres found:", vote, address);
         // fill vote for all candidate
         candidates = [];
         candidates.push(address);
         const otherCandidates = await DbWallet.find({ type: "candidate", address: { $nin: candidates } });
+        if(otherCandidates.length == 0) throw new Error("Errore nella creazione dei wallets candidato");
         otherCandidates.forEach(cand => {
             candidates.push(cand.address);
         });
