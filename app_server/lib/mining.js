@@ -62,7 +62,7 @@ const createWalletElector = async to => {
         console.log("existwalletElector", existElector.length, to);
         if (existElector.length < to) {
             const rows = [];
-            for (let i = existElector.length; i < to; i++) {
+            for (let i = existElector.length+1; i <= to; i++) {
                 const name = `testEle${i}`;
                 const address = await ctrlBlockchain.createWallet(name);
                 const type = "elector"
