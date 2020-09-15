@@ -6,8 +6,14 @@ const createCandidates = async (candidates) => {
     try {
         const rowDb = await blockchain.verifyWallet(candidates);
         if (rowDb && rowDb.length != 0) {
-            const result = await Wallet.insertMany(rowDb);
-            console.log("res createCandidates", result);
+            for (let row of rowDb) {
+                const { name, address } = row;
+                const candidate = await Wallet.find(row);
+                if (candidate.length == 0) {
+                    const result = await Wallet.create(row);
+                    console.log("res createCandidates", result);
+                } // else candidate is alredy registered
+            }
         }
     } catch (error) {
         console.log(error);

@@ -20,7 +20,10 @@ const verifyWallet = async (candidates) => {
         for (let i = 0; i < candidates.length; i++) {
             const name = candidates[i];
             try {
-                const res = await postRequest("open_wallet", { filename: name, "password": "" });
+                await postRequest("open_wallet", { filename: name, "password": "" });
+                const result1 = await postRequest("get_address", { "account_index": 0 });
+                rowDb.push({ name, address:result1.result.address, type: 'candidate' });
+                await postRequest("close_wallet");
             } catch (error) {
                 const address = await createWallet(name);
                 await postRequest("close_wallet");
