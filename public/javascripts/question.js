@@ -65,14 +65,12 @@ async function timer() {
 
 async function post(vote) {
     try {
-        console.log("clicked", vote);
         document.getElementById("cand1_button").disabled = true;
         document.getElementById("cand2_button").disabled = true;
         document.getElementById("spin").style.display = "block";
         const data = {};
         data.cf = sessionStorage.getItem('cf');
         data.vote = vote;
-        console.log(data);
         const res = await fetch('/api/users/vote', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -80,7 +78,6 @@ async function post(vote) {
         });
         const obj = await res.json();
         if (res.status == 200) {
-            console.log(obj);
             sessionStorage.setItem("txId", obj.txId);
             sessionStorage.removeItem('cf');
             window.location.href = '/thanksgiving.html';

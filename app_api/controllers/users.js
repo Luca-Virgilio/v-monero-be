@@ -10,7 +10,6 @@ const blockchain = require('../lib/blockchain');
 const checkUser = async (req, res) => {
     try {
         const { cf } = req.body;
-        console.log(cf);
         const msg = await checkUserIdentity(cf);
         if (msg == true) {
             res.status(200).json({ "result": msg });
@@ -26,9 +25,7 @@ const checkUser = async (req, res) => {
 const sendVote = async (req, res) => {
     try {
         const { cf, vote } = req.body;
-        console.log(cf, vote);
         const info = await InfoDB.find().limit(1);
-        console.log(info);
         if(info[0].isVoting == false) throw new Error('La votazione è terminata. Non è più possibile esprimere voti');
         const msg = await checkUserIdentity(cf);
         if (msg != true) throw new Error(msg);
@@ -38,7 +35,6 @@ const sendVote = async (req, res) => {
         const query1 = await DbWallet.find({ type: "candidate", name: vote });
         if(query1.length == 0) throw new Error("Errore nella scelta del candidato o nella creazione del proprio wallet");
         const { address } = query1[0];
-        console.log("candidate addres found:", vote, address);
         // fill vote for all candidate
         candidates = [];
         candidates.push(address);
@@ -51,20 +47,15 @@ const sendVote = async (req, res) => {
         const query2 = await DbWallet.find({ type: "elector", loaded: true, isUsed: false }).limit(1);
         if(query2.length == 0) throw new Error('Non sono più disponibili wallet per votare');
         const { _id: id, name } = query2[0];
-        console.log("wallet elector:", id, name);
         if (!name || candidates.length == 0) throw new Error('Errore nella scelta del candidato');
         const result = await blockchain.transferMultiple(name, candidates);
-        console.log("result voting", result);
         //updateWallet
         const newRow = await DbWallet.findByIdAndUpdate(id, { isUsed: true }, { new: true });
-        console.log("updateWallet", newRow);
         //updateUSer
         const salt = await pdkdf2.getSalt();
         const hash = await pdkdf2.createHash(cf, salt);
         const newUser = await DbUser.create({ cf: hash, wallet: name });
-        console.log("new user", newUser);
         const { tx_hash } = result.result;
-        console.log("tx_hash", tx_hash);
         return res.status(200).json({ "txId": tx_hash });
     } catch (error) {
         console.log(error);
@@ -75,7 +66,6 @@ const sendVote = async (req, res) => {
 const checkTxId = async (req, res) => {
     try {
         const { txId } = req.body;
-        console.log("txId", txId);
         const info = await blockchain.checkTxId('admin', txId);
         if (info.block_height && info.double_spend_seen == false && info.in_pool == false) {
             return res.status(200).json({ "block_height": info.block_height, "double_spend_seen": info.double_spend_seen, "in_pool": info.in_pool });
@@ -129,7 +119,6 @@ const checkUserIdentity = async cf => {
         const salt = await pdkdf2.getSalt();
         const hash = await pdkdf2.createHash(cf, salt);
         const users = await DbUser.find({ cf: hash });
-        console.log("users", users);
         if (users.length == 0) {
             return true;
         } else {
@@ -146,16 +135,15 @@ const checkVote = (vote) => {
     const pattVote1 = new RegExp(choice1);
     const pattVote2 = new RegExp(choice2);
     const flag = pattVote1.test(vote) || pattVote2.test(vote);
-    console.log("flag vote", flag);
+    // console.log("flag vote", flag);
     return flag;
 
 }
 const checkCf = (cf) => {
-    console.log("checkCf".cf);
     const re = /^(?:[A-Z][AEIOU][AEIOUX]|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$/;
     const pattCf = new RegExp(re);
     const flag = pattCf.test(cf);
-    console.log("pattern cf", flag);
+    // console.log("is valid cf?", flag);
     return flag;
 }
 

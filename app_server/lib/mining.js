@@ -10,9 +10,6 @@ const mining = async (time) => {
         await ctrlBlockchain.startMining();
         await timer(time);
         await ctrlBlockchain.stopMining();
-        // setTimeout(() => {
-        //     ctrlBlockchain.stopMining()
-        // }, time);
     } catch (error) {
         console.log(error);
     }
@@ -41,10 +38,9 @@ const setupMining = async _ => {
         let flag = true;
         while (flag) {
             const res = await ctrlBlockchain.getHeight();
-            console.log("res height", res);
             if (res.height > 100) {
                 await ctrlBlockchain.stopMining();
-                console.log("setupMining complete. Blockchain height:", res.height);
+                console.log("SetupMining complete. Blockchain height:", res.height);
                 flag = false;
             } else {
                 await timer(30000);
@@ -57,16 +53,15 @@ const setupMining = async _ => {
 
 const createWalletElector = async to => {
     try {
-        console.log("!!!!!!!!!!!!!!!!!!! createElector");
+        console.log("\nCreating wallet elector");
         const existElector = await Wallet.find({ type: "elector" });
-        console.log("existwalletElector", existElector.length, to);
+        console.log("number of elector's wallet existing", existElector.length,"of", to);
         if (existElector.length < to) {
             const rows = [];
             for (let i = existElector.length+1; i <= to; i++) {
                 const name = `testEle${i}`;
                 const address = await ctrlBlockchain.createWallet(name);
                 const type = "elector"
-                console.log("insert ", { name, address, type })
                 rows.push({ name, address, type });
             }
             const result = await Wallet.insertMany(rows);
@@ -78,23 +73,21 @@ const createWalletElector = async to => {
 
 const setUpElector = async _ => {
     try {
-        console.log("********* setUpElector");
         const wallets = await Wallet.find({ type: "elector", loaded: false }).limit(11);
-        console.log('num', wallets.length);
         if (wallets.length > 0) {
+            console.log("\nAdmin send token to electors");
             const electorsAddress = wallets.map(wallet => wallet.address);
             await ctrlBlockchain.transferMultiple('admin', electorsAddress);
             const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(10000)];
             await Promise.all(promises);
-            console.log("recall");
             setUpElector();
         } else {
             const info = await Info.find();
             if (info.length == 0) {
                 const setVoting = await Info.create({ isVoting: true });
-                console.log("setVoting", setVoting);
+                console.log("\nVoting phase:", setVoting.isVoting);
             } else
-                console.log("setVoting", info[0]);
+                console.log("\nVoting phase:", info[0].isVoting);
             return;
         }
     } catch (error) {

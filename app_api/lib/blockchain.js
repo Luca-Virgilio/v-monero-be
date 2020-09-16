@@ -8,14 +8,6 @@ const verifyWallet = async (candidates) => {
         const res_admin = await postRequest("open_wallet", { filename: "admin", "password": "" });
         await postRequest("close_wallet");
         console.log(`admin's wallet alredy exist`);
-        // console.log(res_admin);
-        // (res_admin.error) ? await createWallet("admin") : await postRequest("close_wallet"); console.log(`admin's wallet alredy exist`);
-        // const res1 = await postRequest("open_wallet", { filename: wallet1, "password": "" });
-        // console.log('cand1', res1);
-        // (res1.error) ? await createWallet(wallet1) : await postRequest("close_wallet"); console.log(`${wallet1}'s wallet alredy exist`);
-        // const res2 = await postRequest("open_wallet", { filename: wallet2, "password": "" });
-        // console.log('cand2', res2);
-        // (res2.error) ? await createWallet(wallet2) : await postRequest("close_wallet"); console.log(`${wallet2}'s wallet alredy exist`);
         const rowDb = [];
         for (let i = 0; i < candidates.length; i++) {
             const name = candidates[i];

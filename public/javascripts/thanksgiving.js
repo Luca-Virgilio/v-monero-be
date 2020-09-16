@@ -12,7 +12,6 @@ async function countDown() {
             document.getElementById("txId-value").innerHTML = `${txId}`;
         }
         if (count > 0) {
-            console.log('timer ', count);
             count--;
             await timer();
             countDown();
@@ -25,7 +24,6 @@ async function countDown() {
     }
 }
 const copyId = _ => {
-    console.log("copy");
     const txId = sessionStorage.getItem("txId");
     let dummy = document.createElement("input");
     document.body.appendChild(dummy);
