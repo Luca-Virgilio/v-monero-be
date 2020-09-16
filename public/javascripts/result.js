@@ -1,12 +1,15 @@
 window.onload = async function () {
-    const res = await GetResult();
-    console.log(res);
-    this.renderColumnChart(res[0].value, res[1].value);
-    // stopMining();
+    try {
+        const res = await GetResult();
+        this.renderColumnChart(res[0].value, res[1].value);
+    } catch (error) {
+        console.log(error);
+    }
+
 }
 
 renderColumnChart = (cand1_value, cand2_value) => {
-    Chart.defaults.global.defaultFontColor ='black'
+    Chart.defaults.global.defaultFontColor = 'black'
     var ctx = document.getElementById('chartContainer');
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -17,7 +20,7 @@ renderColumnChart = (cand1_value, cand2_value) => {
                 backgroundColor: [
                     'rgba(255, 99, 132, 1)',
                     'rgba(54, 162, 235, 1)',
-                    
+
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -31,22 +34,23 @@ renderColumnChart = (cand1_value, cand2_value) => {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true,
-                        stepSize:1
+                        stepSize: 1
                     },
-                    labelString:'numero di voti'
+                    labelString: 'numero di voti'
                 }]
 
             },
             legend: {
                 display: false
             }
-            
+
         }
     });
 }
 
 GetResult = async () => {
     try {
+        document.getElementById("spin").style.display = "block";
         const path = '/api/users/getResults'
         const res = await fetch(path, {
             method: "GET",
@@ -54,23 +58,14 @@ GetResult = async () => {
             mode: 'cors'
         });
         const obj = await res.json();
-        return obj.candidates;
+        document.getElementById("spin").style.display = "none";
+        if (res.status == 200) {
+            return obj.candidates;
+        } else {
+            throw new Error(obj);
+        }
     } catch (error) {
-        console.log(error);
+        throw error;
     }
-}
 
-const stopMining = async _ =>{
-    try {
-        const path = '/api/mining';
-        const data = { method: 'stop_mining' };
-        const res = await fetch(path, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
-
-    } catch (error) {
-        console.log(error);
-    }
 }
