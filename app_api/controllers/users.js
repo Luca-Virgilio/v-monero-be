@@ -79,7 +79,6 @@ const checkTxId = async (req, res) => {
 const getResults = async (req, res) => {
     try {
         const info = await InfoDB.find().limit(1);
-        console.log(info);
         if(info[0].isVoting == true) throw new Error('La votazione è in corso. Solo al termine è possibile vedere i risultati');
         const candidates = await DbWallet.find({ type: "candidate" }).sort({name:1});
         elements = [];
