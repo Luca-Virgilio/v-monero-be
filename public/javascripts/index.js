@@ -126,7 +126,8 @@ socket.on('device-deactivated', (error) => {
 const checkCf = async _ => {
     try {
         document.getElementById("go_btn").disabled = true;
-        const cf = document.getElementById("cf").value;
+        const cfInput = document.getElementById("cf").value;
+        const cf = cfInput.trim();
         console.log("test", cf);
         const data = {};
         data.cf = cf.toUpperCase();
@@ -166,7 +167,8 @@ const cleanModal = _ => {
 const checkTxId = async _ => {
     try {
         document.getElementById("checkId").disabled = true;
-        const txId = document.getElementById("txId").value;
+        const txIdInput = document.getElementById("txId").value;
+        const txId = txIdInput.trim();
         console.log("aaa", txId==undefined, txId == null, !txId);
         if (!txId) throw new Error('Inserire un Id valido');
         const data = {};
