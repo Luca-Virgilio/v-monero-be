@@ -1,9 +1,15 @@
 window.onload = async function () {
     try {
         const res = await GetResult();
+        document.getElementById("error-danger").style.display = "none";
+        document.getElementById("question").style.display = "block";
         this.renderColumnChart(res[0].value, res[1].value);
     } catch (error) {
         console.log(error);
+        document.getElementById("error-danger").innerHTML = error;
+        document.getElementById("error-danger").style.display = "block";
+        document.getElementById("question").style.display = "none";
+
     }
 
 }
@@ -62,7 +68,7 @@ GetResult = async () => {
         if (res.status == 200) {
             return obj.candidates;
         } else {
-            throw new Error(obj);
+            throw new Error(obj.error);
         }
     } catch (error) {
         throw error;
