@@ -18,7 +18,7 @@ const mining = async (time) => {
 const manageMining = _ => {
     setInterval(() => {
         mining(20000)
-    }, 600000);
+    }, 180000);
 }
 
 async function timer(time) {
