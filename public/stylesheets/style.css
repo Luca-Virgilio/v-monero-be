@@ -10,11 +10,15 @@ a {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -100px;
+  margin: 0 auto -50px;
+}
+
+#push {
+  height: 50px;
 }
 
 .footer {
-  height: 100px;
+  height: 50px;
 }
 
 body {
@@ -201,7 +205,8 @@ input {
 .tx-id-description {
   margin-top: 1rem;
 }
-.container-question-result{
+
+.container-question-result {
   padding: 0rem 0.5rem 2rem 0.5rem;
   text-align: center;
 }
@@ -211,7 +216,7 @@ input {
 }
 
 .footer {
-  padding: 4rem 1rem 0rem 1rem;
+  padding: 1rem 1rem;
   justify-content: left;
   display: flex;
   text-align: center;
