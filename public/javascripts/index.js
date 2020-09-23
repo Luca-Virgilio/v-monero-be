@@ -40,6 +40,8 @@ const cleanModal = _ => {
 }
 const checkTxId = async _ => {
     try {
+        document.getElementById("txId-success").style.display = "none";
+        document.getElementById("txId-danger").style.display = "none";
         document.getElementById("checkId").disabled = true;
         const txIdInput = document.getElementById("txId").value;
         const txId = txIdInput.trim();
