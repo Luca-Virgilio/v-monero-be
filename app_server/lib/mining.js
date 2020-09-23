@@ -78,7 +78,7 @@ const setUpElector = async _ => {
             console.log("\nAdmin send token to electors");
             const electorsAddress = wallets.map(wallet => wallet.address);
             await ctrlBlockchain.transferMultiple('admin', electorsAddress);
-            const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(10000)];
+            const promises = [Wallet.updateMany({ address: { $in: electorsAddress } }, { loaded: true }), mining(20000)];
             await Promise.all(promises);
             setUpElector();
         } else {
