@@ -56,10 +56,11 @@ const checkTxId = async _ => {
         });
         const obj = await res.json();
         if (res.status == 200) {
+            document.getElementById("txId-danger").style.display = "none";
             document.getElementById("txId-success").innerHTML = 'Il tuo voto è stato conteggiato con successo';
             document.getElementById("txId-success").style.display = "block";
         } else {
-            console.log(obj);
+            document.getElementById("txId-success").style.display = "none";
             document.getElementById("txId-danger").innerHTML = (obj.in_pool == true && obj.double_spend_seen == false)
                 ? 'Il tuo voto non è stato ancora conteggiato. Bisogna attendere 1 ora da quanto è stato espresso il voto'
                 : 'Inserire un Id valido';
