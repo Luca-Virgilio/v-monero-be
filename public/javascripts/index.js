@@ -62,7 +62,7 @@ const checkTxId = async _ => {
         } else {
             document.getElementById("txId-success").style.display = "none";
             document.getElementById("txId-danger").innerHTML = (obj.in_pool == true && obj.double_spend_seen == false)
-                ? 'Il tuo voto non è stato ancora conteggiato. Bisogna attendere 1 ora da quanto è stato espresso il voto'
+                ? 'Il tuo voto non è stato ancora conteggiato. Bisogna attendere 1 ora da quando è stato espresso il voto'
                 : 'Inserire un Id valido';
             document.getElementById("txId-danger").style.display = "block";
         }
