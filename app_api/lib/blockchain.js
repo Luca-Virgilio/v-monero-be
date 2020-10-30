@@ -94,7 +94,7 @@ const printAddress = async (name1, name2) => {
 
 const transferMultiple = async (sender, destionations) => {
     try {
-        const amount = 2000000000000;
+        const amount = 1000000100000;
         let index = 0;
         const payload = sender=='admin' ?
         destionations.map(addr => {
