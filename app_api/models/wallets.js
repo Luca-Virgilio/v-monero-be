@@ -10,13 +10,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    loaded: {
+        type: Boolean,
+        default:false
+    },
     isUsed: {
         type: Boolean,
         default:false
     },
+    value:{
+        type:Number
+    },
     type: {
         type:String,
-        enum:['admin', 'elector', 'candidate','fake'],
+        enum:['elector', 'candidate'],
         default: 'elector'
     }
 });

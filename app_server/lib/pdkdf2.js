@@ -51,5 +51,6 @@ const createHash = async (data, salt) => {
 module.exports = {
     createHash,
     createSalt,
-    getSalt
+    getSalt,
+    randomBytesFy
 }

@@ -44,9 +44,10 @@ process.on('SIGTERM', () => {
 });
 
 // BRING IN YOUR SCHEMAS & MODELS
-// require('./users');
+require('./users');
 require('./salt');
 require('./wallets');
+require('./info');
 
 
 

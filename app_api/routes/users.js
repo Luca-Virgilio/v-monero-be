@@ -1,12 +1,19 @@
-// const express = require('express');
-// const router = express.Router();
-// const userController = require('../controllers/users.js');
+const express = require('express');
+const router = express.Router();
+const userController = require('../controllers/users.js');
 
 // /* GET users listing. */
-// router
-// .route('/')
-// .post(userController.createUser)
-// .get(userController.getUsers);
+router
+.route('/checkUser')
+.post(userController.checkUser);
+
+router.post('/vote', userController.sendVote);
 
 
-// module.exports = router;
+router.post('/checkTxId', userController.checkTxId);
+
+router.get('/getResults', userController.getResults);
+
+
+
+module.exports = router;
